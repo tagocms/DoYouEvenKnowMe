@@ -8,17 +8,14 @@
 import UIKit
 
 class CreateQuizView: UIView {
-    var onTextInput: (String) -> Void = { _ in }
-    var quizData = [Quiz]()
     
     // MARK: - UI Elements
-    lazy private var quizNameInputField: UITextField = {
+    var quizNameInputField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.returnKeyType = .done
         textField.autocapitalizationType = .words
         textField.autocorrectionType = .no
-        textField.delegate = self
         
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
@@ -26,11 +23,12 @@ class CreateQuizView: UIView {
         return textField
     }()
     
-    lazy private var tableView: UITableView = {
+    var inputLabelName = createInputLabel("Choose the name for your Quiz")
+    var inputLabelColor = createInputLabel("Choose the Color Pallete for your Quiz")
+    
+    var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
         
         return tableView
     }()
@@ -48,55 +46,54 @@ class CreateQuizView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    // MARK: - Custom components initialization
+    static func createInputLabel(_ text: String) -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = text
+        label.font = .systemFont(ofSize: 17, weight: .semibold)
+        
+        return label
+    }
+    
     // MARK: - Adding subviews
     func addSubviews() {
         addSubview(quizNameInputField)
         addSubview(tableView)
+        addSubview(inputLabelName)
+        addSubview(inputLabelColor)
     }
     
     // MARK: - Constraints
     func setupConstraints() {
+        // Constraints for name label
+        NSLayoutConstraint.activate([
+            inputLabelName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            inputLabelName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            inputLabelName.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
+        ])
+        
         // Constraints for input field
         NSLayoutConstraint.activate([
             quizNameInputField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             quizNameInputField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            quizNameInputField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            quizNameInputField.topAnchor.constraint(equalTo: inputLabelName.bottomAnchor, constant: 10),
+        ])
+        
+        // Constraints for table label
+        NSLayoutConstraint.activate([
+            inputLabelColor.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            inputLabelColor.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            inputLabelColor.topAnchor.constraint(equalTo: quizNameInputField.bottomAnchor, constant: 16)
         ])
         
         // Constraints for table field
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            tableView.topAnchor.constraint(equalTo: quizNameInputField.bottomAnchor, constant: 16),
+            tableView.topAnchor.constraint(equalTo: inputLabelColor.bottomAnchor, constant: 10),
             tableView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5)
         ])
-    }
-}
-
-// MARK: - TextField delegate
-extension CreateQuizView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if let text = textField.text {
-            onTextInput(text)
-        }
-    }
-}
-
-// MARK: - TableView delegate (can be better)
-extension CreateQuizView: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = quizData[indexPath.row].title
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        quizData.count
     }
 }
