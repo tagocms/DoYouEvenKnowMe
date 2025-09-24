@@ -8,18 +8,29 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view = MenuView()
+    private let menuView = MenuView()
+    
+    override func loadView() {
+        view = menuView
         title = "Do you even know me?"
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        menuView.onPressButton = navigateToNextView
+    }
+    
+    func navigateToNextView() {
+        navigationController?.pushViewController(CreateQuizViewController(), animated: true)
     }
 }
 
 class MenuView: UIView {
+    var onPressButton: () -> Void = { }
     
     // MARK: - UI Elements
-    private var paragraphText: UILabel = {
+    lazy private var paragraphText: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Create quizzes to test your friends on their knowledge of you!"
@@ -28,12 +39,12 @@ class MenuView: UIView {
         return label
     }()
     
-    private var createQuizButton: UIButton = {
+    lazy private var createQuizButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        // change
         button.setTitle("Create a Quiz", for: .normal)
         button.configuration = .filled()
+        button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
         
         return button
     }()
@@ -72,5 +83,10 @@ class MenuView: UIView {
             createQuizButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             createQuizButton.topAnchor.constraint(equalTo: paragraphText.bottomAnchor, constant: 16),
         ])
+    }
+    
+    // MARK: - Constraints
+    @objc func didPressButton() {
+        onPressButton()
     }
 }

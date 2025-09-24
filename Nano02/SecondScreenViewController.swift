@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SecondScreen: UIViewController {
+class CreateQuizViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
