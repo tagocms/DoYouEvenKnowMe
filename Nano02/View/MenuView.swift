@@ -1,30 +1,11 @@
 //
-//  ViewController.swift
+//  MenuView.swift
 //  Nano02
 //
-//  Created by Tiago Camargo Maciel dos Santos on 22/09/25.
+//  Created by Tiago Camargo Maciel dos Santos on 24/09/25.
 //
 
 import UIKit
-
-class MenuViewController: UIViewController {
-    private let menuView = MenuView()
-    
-    override func loadView() {
-        view = menuView
-        title = "Do you even know me?"
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        menuView.onPressButton = navigateToNextView
-    }
-    
-    func navigateToNextView() {
-        navigationController?.pushViewController(CreateQuizViewController(), animated: true)
-    }
-}
 
 class MenuView: UIView {
     var onPressButton: () -> Void = { }
@@ -44,6 +25,7 @@ class MenuView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Create a Quiz", for: .normal)
         button.configuration = .filled()
+        button.configuration?.buttonSize = .large
         button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
         
         return button
@@ -79,13 +61,12 @@ class MenuView: UIView {
         
         // Button constraints
         NSLayoutConstraint.activate([
-            createQuizButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            createQuizButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            createQuizButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             createQuizButton.topAnchor.constraint(equalTo: paragraphText.bottomAnchor, constant: 16),
         ])
     }
     
-    // MARK: - Constraints
+    // MARK: - Button Action
     @objc func didPressButton() {
         onPressButton()
     }

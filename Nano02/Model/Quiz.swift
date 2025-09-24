@@ -26,22 +26,70 @@ struct Quiz: Codable, Identifiable {
         let image: Data?
     }
     let id: UUID
-    let name: String
+    let title: String
     let colorPallete: ColorPallete
     let questions: [Question]
 }
 
 class QuizData {
-    let encodingKey = "quizzes"
+    static private let encodingKey = "quizzes"
+    static let shared = QuizData()
+    static let sampleData: [Quiz] = [
+        Quiz(
+            id: UUID(),
+            title: "Quiz exemplo",
+            colorPallete: Quiz.ColorPallete(
+                foreground: "#FFEEAA",
+                background: "#AAEEFF",
+                correctAnswer: "#FFAAEE",
+                wrongAnswer: "#FFAAEE"
+            ),
+            questions: []
+        ),
+        Quiz(
+            id: UUID(),
+            title: "Quiz exemplo",
+            colorPallete: Quiz.ColorPallete(
+                foreground: "#FFEEAA",
+                background: "#AAEEFF",
+                correctAnswer: "#FFAAEE",
+                wrongAnswer: "#FFAAEE"
+            ),
+            questions: []
+        ),
+        Quiz(
+            id: UUID(),
+            title: "Quiz exemplo",
+            colorPallete: Quiz.ColorPallete(
+                foreground: "#FFEEAA",
+                background: "#AAEEFF",
+                correctAnswer: "#FFAAEE",
+                wrongAnswer: "#FFAAEE"
+            ),
+            questions: []
+        ),
+        Quiz(
+            id: UUID(),
+            title: "Quiz exemplo",
+            colorPallete: Quiz.ColorPallete(
+                foreground: "#FFEEAA",
+                background: "#AAEEFF",
+                correctAnswer: "#FFAAEE",
+                wrongAnswer: "#FFAAEE"
+            ),
+            questions: []
+        ),
+    ]
+    
     var quizzes: [Quiz] {
         didSet {
             encodeQuizzes()
         }
     }
     
-    init() {
+    private init() {
         let decoder = JSONDecoder()
-        if let data = UserDefaults.standard.data(forKey: encodingKey) {
+        if let data = UserDefaults.standard.data(forKey: Self.encodingKey) {
             if let decodedData = try? decoder.decode([Quiz].self, from: data) {
                 self.quizzes = decodedData
                 return
@@ -50,10 +98,10 @@ class QuizData {
         self.quizzes = []
     }
     
-    func encodeQuizzes() {
+    private func encodeQuizzes() {
         let encoder = JSONEncoder()
         if let encodedData = try? encoder.encode(quizzes) {
-            UserDefaults.standard.set(encodedData, forKey: encodingKey)
+            UserDefaults.standard.set(encodedData, forKey: Self.encodingKey)
         }
     }
 }
