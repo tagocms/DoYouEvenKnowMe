@@ -10,23 +10,19 @@ import UIKit
 class CreateQuizView: UIView {
     
     // MARK: - UI Elements
-    var quizNameInputField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.returnKeyType = .done
-        textField.autocapitalizationType = .words
-        textField.autocorrectionType = .no
-        
-        textField.backgroundColor = .systemGray6
-        textField.layer.cornerRadius = 8
-        
-        return textField
-    }()
-    
     var inputLabelName = createInputLabel("Choose the name for your Quiz")
     var inputLabelColor = createInputLabel("Choose the Color Pallete for your Quiz")
     
-    var tableView: UITableView = {
+    var nameInputTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(InputTableViewCell.self, forCellReuseIdentifier: InputTableViewCell.identifier)
+        
+        
+        return tableView
+    }()
+    
+    var colorPalleteTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -59,10 +55,10 @@ class CreateQuizView: UIView {
     
     // MARK: - Adding subviews
     func addSubviews() {
-        addSubview(quizNameInputField)
-        addSubview(tableView)
         addSubview(inputLabelName)
+        addSubview(nameInputTableView)
         addSubview(inputLabelColor)
+        addSubview(colorPalleteTableView)
     }
     
     // MARK: - Constraints
@@ -74,26 +70,27 @@ class CreateQuizView: UIView {
             inputLabelName.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
         ])
         
-        // Constraints for input field
+        // Constraints for input field TableView
         NSLayoutConstraint.activate([
-            quizNameInputField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            quizNameInputField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            quizNameInputField.topAnchor.constraint(equalTo: inputLabelName.bottomAnchor, constant: 10),
+            nameInputTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            nameInputTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            nameInputTableView.topAnchor.constraint(equalTo: inputLabelName.bottomAnchor, constant: 10),
+            nameInputTableView.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         // Constraints for table label
         NSLayoutConstraint.activate([
             inputLabelColor.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             inputLabelColor.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            inputLabelColor.topAnchor.constraint(equalTo: quizNameInputField.bottomAnchor, constant: 16)
+            inputLabelColor.topAnchor.constraint(equalTo: nameInputTableView.bottomAnchor, constant: 16)
         ])
         
-        // Constraints for table field
+        // Constraints for Color Pallete Table View
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            tableView.topAnchor.constraint(equalTo: inputLabelColor.bottomAnchor, constant: 10),
-            tableView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5)
+            colorPalleteTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            colorPalleteTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            colorPalleteTableView.topAnchor.constraint(equalTo: inputLabelColor.bottomAnchor, constant: 10),
+            colorPalleteTableView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5)
         ])
     }
 }

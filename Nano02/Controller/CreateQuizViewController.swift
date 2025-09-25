@@ -23,9 +23,8 @@ class CreateQuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        quizView.quizNameInputField.delegate = self
-        quizView.tableView.delegate = self
-        quizView.tableView.dataSource = self
+        quizView.nameInputTableView.delegate = self
+        quizView.nameInputTableView.dataSource = self
     }
     
     // MARK: - Updating the "text" variable
@@ -52,13 +51,15 @@ extension CreateQuizViewController: UITextFieldDelegate {
 // MARK: - TableView delegate
 extension CreateQuizViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = quizData[indexPath.row].title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: InputTableViewCell.identifier, for: indexPath) as? InputTableViewCell else {
+            fatalError("Unable to dequeue InputTableViewCell")
+        }
+        cell.textField.delegate = self
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        quizData.count
+        1
     }
 }
