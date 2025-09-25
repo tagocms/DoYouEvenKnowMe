@@ -9,10 +9,10 @@ import UIKit
 
 struct Quiz: Codable, Identifiable {
     struct ColorPallete: Codable {
-        var foreground: String
-        var background: String
-        var correctAnswer: String
-        var wrongAnswer: String
+        var foreground: String?
+        var background: String?
+        var correctAnswer: String?
+        var wrongAnswer: String?
     }
     struct Question: Codable, Identifiable {
         struct Answer: Codable, Identifiable {
@@ -26,7 +26,7 @@ struct Quiz: Codable, Identifiable {
         var image: Data?
     }
     let id: UUID
-    let title: String
+    let title: String?
     var colorPallete: ColorPallete
     var questions: [Question]
     
@@ -40,7 +40,7 @@ struct Quiz: Codable, Identifiable {
     init() {
         self.id = UUID()
         self.title = ""
-        self.colorPallete = ColorPallete(foreground: "#FFFFFF", background: "#FFFFFF", correctAnswer: "#FFFFFF", wrongAnswer: "#FFFFFF")
+        self.colorPallete = ColorPallete()
         self.questions = []
     }
 }

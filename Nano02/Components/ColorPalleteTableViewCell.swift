@@ -38,6 +38,7 @@ class ColorPalleteTableViewCell: UITableViewCell {
     }
     
     func setupUI() {
+        self.selectionStyle = .none
         contentView.addSubview(labelView)
         contentView.addSubview(colorWell)
         

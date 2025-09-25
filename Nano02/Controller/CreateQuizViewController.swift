@@ -54,7 +54,6 @@ class CreateQuizViewController: UIViewController {
             break
         }
         
-        
         print(sender.title ?? "", selectedColor)
     }
 }
