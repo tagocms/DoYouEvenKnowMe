@@ -1,5 +1,5 @@
 //
-//  InputTableViewCell.swift
+//  ColorPalleteTableViewCell.swift
 //  Nano02
 //
 //  Created by Tiago Camargo Maciel dos Santos on 25/09/25.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class InputTableViewCell: UITableViewCell {
+class ColorPalleteTableViewCell: UITableViewCell {
     
-    static let identifier = "InputCell"
+    static let identifier = "ColorPalleteCell"
     
     let labelView: UILabel = {
         let labelView = UILabel()
@@ -19,15 +19,13 @@ class InputTableViewCell: UITableViewCell {
         return labelView
     }()
     
-    let textField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Placeholder Text"
-        textField.returnKeyType = .done
-        textField.autocapitalizationType = .words
-        textField.autocorrectionType = .no
+    let colorWell: UIColorWell = {
+        let colorWell = UIColorWell()
+        colorWell.translatesAutoresizingMaskIntoConstraints = false
+        colorWell.supportsAlpha = false
+        colorWell.contentMode = .scaleAspectFit
         
-        return textField
+        return colorWell
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -41,18 +39,17 @@ class InputTableViewCell: UITableViewCell {
     
     func setupUI() {
         contentView.addSubview(labelView)
-        contentView.addSubview(textField)
+        contentView.addSubview(colorWell)
         
         NSLayoutConstraint.activate([
             labelView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             labelView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             labelView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            labelView.widthAnchor.constraint(equalTo: contentView.layoutMarginsGuide.widthAnchor, multiplier: 0.3),
+            labelView.widthAnchor.constraint(equalTo: contentView.layoutMarginsGuide.widthAnchor, multiplier: 0.6),
             
-            textField.leadingAnchor.constraint(equalTo: labelView.trailingAnchor),
-            textField.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-            textField.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            textField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            colorWell.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            colorWell.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            colorWell.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
         ])
     }
 }

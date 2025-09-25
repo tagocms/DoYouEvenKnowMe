@@ -25,6 +25,7 @@ class CreateQuizView: UIView {
     var colorPalleteTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ColorPalleteTableViewCell.self, forCellReuseIdentifier: ColorPalleteTableViewCell.identifier)
         
         return tableView
     }()
