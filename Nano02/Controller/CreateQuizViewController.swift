@@ -65,11 +65,7 @@ class CreateQuizViewController: UIViewController {
     }
     
     func checkFieldsFilled() {
-        if quizModel.title != nil
-            && quizModel.colorPallete.foreground != nil
-            && quizModel.colorPallete.background != nil
-            && quizModel.colorPallete.correctAnswer != nil
-            && quizModel.colorPallete.wrongAnswer != nil {
+        if quizModel.title != nil && quizModel.title?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             quizView.nextButton.isEnabled = true
         } else {
             quizView.nextButton.isEnabled = false

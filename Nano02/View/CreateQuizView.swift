@@ -11,8 +11,19 @@ class CreateQuizView: UIView {
     var onPressButton: () -> Void = { }
     
     // MARK: - UI Elements
-    var inputLabelName = createInputLabel("Choose the name for your Quiz")
-    var inputLabelColor = createInputLabel("Choose the Color Pallete for your Quiz")
+    var inputLabelName: InputLabel = {
+        let label = InputLabel()
+        label.text = "Choose the name for your Quiz"
+        
+        return label
+    }()
+    
+    var inputLabelColor: InputLabel = {
+        let label = InputLabel()
+        label.text = "Choose the Color Pallete for your Quiz"
+        
+        return label
+    }()
     
     var nameInputTableView: UITableView = {
         let tableView = UITableView()
@@ -51,17 +62,6 @@ class CreateQuizView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    // MARK: - Custom components initialization
-    static func createInputLabel(_ text: String) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = text
-        label.font = .systemFont(ofSize: 17, weight: .semibold)
-        
-        return label
     }
     
     // MARK: - Adding subviews
