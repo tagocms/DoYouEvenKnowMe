@@ -104,6 +104,7 @@ class QuestionView: UIView {
         NSLayoutConstraint.activate([
             inputPromptTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             inputPromptTableView.topAnchor.constraint(equalTo: inputPromptLabel.bottomAnchor, constant: 10),
+            inputPromptTableView.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         // Constraints for Alternatives Prompt Label
@@ -116,6 +117,7 @@ class QuestionView: UIView {
         NSLayoutConstraint.activate([
             alternativesPromptTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             alternativesPromptTableView.topAnchor.constraint(equalTo: alternativesPromptLabel.bottomAnchor, constant: 10),
+            alternativesPromptTableView.heightAnchor.constraint(equalToConstant: 220)
         ])
         
         // Constraints for Image Prompt Label
@@ -128,6 +130,7 @@ class QuestionView: UIView {
         NSLayoutConstraint.activate([
             imagePromptTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             imagePromptTableView.topAnchor.constraint(equalTo: imagePromptLabel.bottomAnchor, constant: 10),
+            imagePromptTableView.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         // Constraints for Next Button
