@@ -30,7 +30,6 @@ struct Quiz: Codable, Identifiable {
     var title: String?
     var colorPallete: ColorPallete
     var questions: [Question]
-    // TODO: - Make it so the date created is always stored, not initialized again and again
     var dateCreated: Date
     
     init(id: UUID, title: String, colorPallete: ColorPallete, questions: [Question]) {
@@ -113,7 +112,7 @@ class QuizData {
         
         if let data = try? Data(contentsOf: URL) {
             if let decodedData = try? decoder.decode([Quiz].self, from: data) {
-                self.quizzes = decodedData
+                self.quizzes = decodedData.sorted { $0.dateCreated > $1.dateCreated }
                 return
             }
         }
