@@ -19,6 +19,7 @@ class QuestionView: UIView {
     var inputPromptTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(InputTableViewCell.self, forCellReuseIdentifier: InputTableViewCell.identifier)
         
         return tableView
     }()

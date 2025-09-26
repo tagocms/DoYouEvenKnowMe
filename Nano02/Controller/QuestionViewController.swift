@@ -50,14 +50,36 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         } else if tableView == questionView.imagePromptTableView {
             1
         } else {
-            1
+            0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "\(indexPath.row)"
-        return cell
+        if tableView == questionView.inputPromptTableView {
+            guard let inputPromptCell = tableView.dequeueReusableCell(withIdentifier: InputTableViewCell.identifier, for: indexPath) as? InputTableViewCell else {
+                fatalError("Unable to dequeue cell.")
+            }
+            inputPromptCell.labelView.text = "Prompt"
+            inputPromptCell.textField.placeholder = "Your prompt"
+            
+            return inputPromptCell
+        } else if tableView == questionView.alternativesPromptTableView {
+            // TODO: - Add input table cells with checkmarks
+            guard let inputPromptCell = tableView.dequeueReusableCell(withIdentifier: InputTableViewCell.identifier, for: indexPath) as? InputTableViewCell else {
+                fatalError("Unable to dequeue cell.")
+            }
+            
+            return inputPromptCell
+        } else if tableView == questionView.imagePromptTableView {
+            // TODO: - Add a photo selection table cell
+            guard let inputPromptCell = tableView.dequeueReusableCell(withIdentifier: InputTableViewCell.identifier, for: indexPath) as? InputTableViewCell else {
+                fatalError("Unable to dequeue cell.")
+            }
+            
+            return inputPromptCell
+        } else {
+            return UITableViewCell()
+        }
     }
     
     
