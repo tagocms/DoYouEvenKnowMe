@@ -106,6 +106,7 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
             }
             inputPromptCell.labelView.text = "Prompt"
             inputPromptCell.textField.placeholder = "Your prompt"
+            inputPromptCell.textField.delegate = self
             
             return inputPromptCell
         } else if tableView == questionView.alternativesPromptTableView {
@@ -134,18 +135,37 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-// MARK: - Add delegate properties to QuestionViewController for ImagePicker
+// MARK: - Add delegate funcs to QuestionViewController for ImagePicker
 extension QuestionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let imageURL = info[UIImagePickerController.InfoKey.imageURL] as? URL {
-            question.image = try? Data(contentsOf: imageURL)
-            if let imageData = question.image {
-                questionView.imageSelected.image = UIImage(data: imageData)
+        if let imageCell = questionView.imagePromptTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ImagePromptTableViewCell {
+            if let imageURL = info[UIImagePickerController.InfoKey.imageURL] as? URL {
+                question.image = try? Data(contentsOf: imageURL)
+                if let imageData = question.image {
+                    questionView.imageSelected.image = UIImage(data: imageData)
+                    imageCell.isImageSelected = true
+                }
+                
+            } else {
+                question.image = nil
+                imageCell.isImageSelected = false
+                questionView.imageSelected.image = nil
             }
-            
-            // TODO: - Correct image not loading bug
         }
         
         dismiss(animated: true)
+    }
+}
+
+
+// MARK: - Add delegate funcs to QuestionViewController for TextField
+extension QuestionViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        question.description = textField.text
     }
 }

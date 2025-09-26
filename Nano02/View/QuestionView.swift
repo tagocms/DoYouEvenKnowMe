@@ -58,6 +58,8 @@ class QuestionView: UIView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 12
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleToFill
         
         return imageView
     }()
@@ -105,6 +107,10 @@ class QuestionView: UIView {
     }
     
     // MARK: - Constraints
+    
+    var imageHeightContraint = NSLayoutConstraint()
+    var imageWidthContraint = NSLayoutConstraint()
+    
     func setupConstraints() {
         // Constraints for Input Prompt Label
         NSLayoutConstraint.activate([
@@ -155,19 +161,21 @@ class QuestionView: UIView {
         NSLayoutConstraint.activate([
             imageSelected.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageSelected.topAnchor.constraint(equalTo: imagePromptTableView.bottomAnchor, constant: 10),
-            imageSelected.heightAnchor.constraint(equalToConstant: imageSelected.image != nil ? 124 : 0),
-            imageSelected.widthAnchor.constraint(equalToConstant: imageSelected.image != nil ? 124 : 0)
+            imageSelected.heightAnchor.constraint(greaterThanOrEqualToConstant: 0),
+            imageSelected.heightAnchor.constraint(lessThanOrEqualToConstant: 124),
+            imageSelected.widthAnchor.constraint(greaterThanOrEqualToConstant: 0),
+            imageSelected.widthAnchor.constraint(lessThanOrEqualToConstant: 124),
         ])
         
         // Constraints for Next Button
         NSLayoutConstraint.activate([
-            nextQuestionButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 16),
+            nextQuestionButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             nextQuestionButton.topAnchor.constraint(equalTo: imageSelected.bottomAnchor, constant: 16),
         ])
         
         // Constraints for Finish Quiz Button
         NSLayoutConstraint.activate([
-            finishQuizButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 16),
+            finishQuizButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             finishQuizButton.topAnchor.constraint(equalTo: nextQuestionButton.bottomAnchor, constant: 16),
         ])
     }
