@@ -30,7 +30,7 @@ class StartQuizViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIView.transition(with: startQuizView, duration: 2.0, options: .transitionCrossDissolve) {
+        UIView.transition(with: startQuizView, duration: 0.5, options: .transitionCrossDissolve) {
             self.startQuizView.paragraphText.textColor = UIColor(from: self.quizModel.colorPallete.foreground ?? "") ?? .label
             self.startQuizView.numberOfQuestions.textColor = UIColor(from: self.quizModel.colorPallete.foreground ?? "") ?? .label
             self.startQuizView.backgroundColor = UIColor(from: self.quizModel.colorPallete.background ?? "") ?? .systemBackground

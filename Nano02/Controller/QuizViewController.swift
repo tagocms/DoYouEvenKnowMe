@@ -10,6 +10,7 @@ import UIKit
 class QuizViewController: UIViewController {
     var quizModel: Quiz
     
+    // MARK: - Lifecycle
     override func loadView() {
         super.loadView()
         view.backgroundColor = .systemBackground
@@ -17,10 +18,9 @@ class QuizViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
-
+    
+    // MARK: - Initializers
     init(quizModel: Quiz) {
         self.quizModel = quizModel
         super.init(nibName: nil, bundle: nil)
@@ -29,4 +29,5 @@ class QuizViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
