@@ -64,7 +64,7 @@ class QuestionView: UIView {
         return imageView
     }()
     
-    private var nextQuestionButton: CustomLargeButton = {
+    lazy var nextQuestionButton: CustomLargeButton = {
         let button = CustomLargeButton()
         button.setTitle("Next question", for: .normal)
         button.isEnabled = false
@@ -72,7 +72,7 @@ class QuestionView: UIView {
         return button
     }()
     
-    private var finishQuizButton: CustomLargeButton = {
+    lazy var finishQuizButton: CustomLargeButton = {
         let button = CustomLargeButton()
         button.setTitle("Finish and Save Quiz", for: .normal)
         button.isEnabled = false

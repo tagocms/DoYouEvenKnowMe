@@ -28,6 +28,13 @@ class MenuView: UIView {
         return button
     }()
     
+    lazy var savedQuizzesTableView: UITableView = {
+       let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tableView
+    }()
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,6 +52,7 @@ class MenuView: UIView {
     func addSubviews() {
         addSubview(paragraphText)
         addSubview(createQuizButton)
+        addSubview(savedQuizzesTableView)
     }
     
     // MARK: - Constraints
@@ -60,6 +68,14 @@ class MenuView: UIView {
         NSLayoutConstraint.activate([
             createQuizButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             createQuizButton.topAnchor.constraint(equalTo: paragraphText.bottomAnchor, constant: 16),
+        ])
+        
+        // Table View constraints
+        NSLayoutConstraint.activate([
+            savedQuizzesTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            savedQuizzesTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            savedQuizzesTableView.topAnchor.constraint(equalTo: createQuizButton.bottomAnchor, constant: 16),
+            savedQuizzesTableView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
         ])
     }
     

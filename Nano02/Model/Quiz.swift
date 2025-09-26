@@ -17,7 +17,7 @@ struct Quiz: Codable, Identifiable {
     struct Question: Codable, Identifiable {
         struct Answer: Codable, Identifiable {
             let id: Int
-            let description: String?
+            var description: String?
         }
         let id: Int
         var description: String?

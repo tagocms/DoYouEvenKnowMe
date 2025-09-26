@@ -9,6 +9,7 @@ import UIKit
 
 class MenuViewController: UIViewController {
     private let menuView = MenuView()
+    private let quizData = QuizData.shared
     
     override func loadView() {
         view = menuView
@@ -20,9 +21,27 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         menuView.onPressButton = navigateToNextView
+        
+        menuView.savedQuizzesTableView.delegate = self
+        menuView.savedQuizzesTableView.dataSource = self
     }
     
     func navigateToNextView() {
         navigationController?.pushViewController(CreateQuizViewController(), animated: true)
+    }
+}
+
+// MARK: - Extension to MenuViewController to add table view delegate and datasource conformance
+
+extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        quizData.quizzes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = quizData.quizzes[indexPath.row].title
+        
+        return cell
     }
 }

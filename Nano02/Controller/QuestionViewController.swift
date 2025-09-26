@@ -10,10 +10,35 @@ import UIKit
 class QuestionViewController: UIViewController {
     typealias Question = Quiz.Question
     var quizModel: Quiz
-    var question: Question
+    var question: Question {
+        didSet {
+            let descriptionCleaned = question.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            
+            if !descriptionCleaned.isEmpty && question.correctAnswerId != nil && questionNumber < 10 {
+                for answer in question.answers {
+                    let alternativeCleaned = answer.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                    if  alternativeCleaned.isEmpty {
+                        questionView.nextQuestionButton.isEnabled = false
+                        questionView.finishQuizButton.isEnabled = false
+                        return
+                    }
+                }
+                
+                questionView.nextQuestionButton.isEnabled = true
+                if questionNumber >= 3 && questionNumber <= 10 {
+                    questionView.finishQuizButton.isEnabled = true
+                }
+                return
+            }
+            
+            questionView.nextQuestionButton.isEnabled = false
+            questionView.finishQuizButton.isEnabled = false
+        }
+    }
     
     let questionView = QuestionView()
     let imagePickerController = UIImagePickerController()
+    let alertController = UIAlertController(title: "Finish Quiz", message: "If you finish the Quiz, you won't be able to come back to edit it later.", preferredStyle: .alert)
     var questionNumber: Int
     
     
@@ -33,13 +58,30 @@ class QuestionViewController: UIViewController {
         questionView.imagePromptTableView.delegate = self
         questionView.imagePromptTableView.dataSource = self
         imagePickerController.delegate = self
+        questionView.nextQuestionButton.addTarget(self, action: #selector(nextQuestion), for: .touchUpInside)
+        questionView.finishQuizButton.addTarget(self, action: #selector(finishAndSaveQuiz), for: .touchUpInside)
+        
+        let saveQuiz = UIAlertAction(title: "OK", style: .default) { _ in
+            self.saveQuizToUserDefaultsAndDismiss()
+        }
+        alertController.addAction(saveQuiz)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            self.dismiss(animated: true)
+        }
+        alertController.addAction(cancelAction)
     }
     
     // MARK: - Initializers
     init(quizModel: Quiz, questionNumber: Int = 1) {
         self.quizModel = quizModel
         self.questionNumber = questionNumber
-        self.question = Question(id: questionNumber, answers: [])
+        self.question = Question(id: questionNumber, answers: [
+            Question.Answer(id: 1, description: nil),
+            Question.Answer(id: 2, description: nil),
+            Question.Answer(id: 3, description: nil),
+            Question.Answer(id: 4, description: nil),
+        ])
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -83,6 +125,34 @@ class QuestionViewController: UIViewController {
         present(imagePickerController, animated: true)
     }
     
+    @objc func nextQuestion() {
+        appendQuestionToQuizModel()
+        
+        if questionNumber < 10 {
+            navigationController?.pushViewController(QuestionViewController(quizModel: quizModel, questionNumber: questionNumber + 1), animated: true)
+        }
+    }
+    
+    @objc func finishAndSaveQuiz() {
+        if questionNumber >= 3 && questionNumber <= 10 {
+            appendQuestionToQuizModel()
+            // TODO: - Finish and save quiz to userdefaults
+            present(alertController, animated: true)
+        }
+    }
+    
+    func appendQuestionToQuizModel() {
+        if !quizModel.questions.contains(where: { $0.id == question.id}) {
+            quizModel.questions.append(question)
+        }
+    }
+    
+    func saveQuizToUserDefaultsAndDismiss() {
+        QuizData.shared.quizzes.append(quizModel)
+        navigationController?.popToRootViewController(animated: true)
+        
+        print(QuizData.shared.quizzes)
+    }
 }
 
 // MARK: - Make the QuestionViewController a delegate and datasource to Tables
@@ -114,6 +184,8 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
             guard let alternativeCell = tableView.dequeueReusableCell(withIdentifier: AlternativeTableViewCell.identifier, for: indexPath) as? AlternativeTableViewCell else {
                 fatalError("Unable to dequeue cell.")
             }
+            
+            alternativeCell.textField.delegate = self
             
             alternativeCell.checkMarkButton.addTarget(self, action: #selector(checkBox(_:)), for: .touchUpInside)
             alternativeCell.checkMarkButton.id = indexPath.row + 1
@@ -166,6 +238,20 @@ extension QuestionViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        question.description = textField.text
+        if let promptTextField = questionView.inputPromptTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? InputTableViewCell,
+           let alternativeTextFieldCells = questionView.alternativesPromptTableView.visibleCells as? [AlternativeTableViewCell] {
+            if textField == promptTextField.textField {
+                question.description = textField.text
+                print(question.description ?? "prompt table view not loaded")
+            } else {
+                for index in alternativeTextFieldCells.indices {
+                    if textField == alternativeTextFieldCells[index].textField {
+                        question.answers[index].description = textField.text
+                    }
+                    
+                    print(question.answers[index].description ?? "alternative table view not loaded")
+                }
+            }
+        }
     }
 }
