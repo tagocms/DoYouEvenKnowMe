@@ -102,7 +102,7 @@ class CreateQuizView: UIView {
             colorPalleteTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             colorPalleteTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             colorPalleteTableView.topAnchor.constraint(equalTo: inputLabelColor.bottomAnchor, constant: 10),
-            colorPalleteTableView.heightAnchor.constraint(equalToConstant: 220)
+            colorPalleteTableView.heightAnchor.constraint(equalToConstant: 260)
         ])
         
         // Constraints for Next Button

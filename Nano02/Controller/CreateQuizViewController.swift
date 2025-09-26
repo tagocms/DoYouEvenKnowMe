@@ -11,7 +11,7 @@ class CreateQuizViewController: UIViewController {
     let quizView = CreateQuizView()
     var quizModel = Quiz()
     
-    let colorTypes = ["Foreground", "Background", "Correct Answer", "Wrong Answer"]
+    let colorTypes = ["Foreground", "Background", "Correct Answer", "Wrong Answer", "Button"]
     
     // MARK: - Loading of the View
     override func loadView() {
@@ -52,6 +52,8 @@ class CreateQuizViewController: UIViewController {
             quizModel.colorPallete.correctAnswer = selectedColor
         case "Wrong Answer":
             quizModel.colorPallete.wrongAnswer = selectedColor
+        case "Button":
+            quizModel.colorPallete.button = selectedColor
         default:
             break
         }

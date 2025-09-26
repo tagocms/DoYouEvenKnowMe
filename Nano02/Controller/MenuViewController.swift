@@ -24,6 +24,9 @@ class MenuViewController: UIViewController {
         
         menuView.savedQuizzesTableView.delegate = self
         menuView.savedQuizzesTableView.dataSource = self
+        
+        // TODO: - Make table update with new quiz created
+        print("sla")
     }
     
     func navigateToNextView() {
@@ -43,5 +46,9 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = quizData.quizzes[indexPath.row].title
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "YOUR QUIZZES"
     }
 }

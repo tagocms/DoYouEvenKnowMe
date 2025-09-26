@@ -13,6 +13,7 @@ struct Quiz: Codable, Identifiable {
         var background: String?
         var correctAnswer: String?
         var wrongAnswer: String?
+        var button: String?
     }
     struct Question: Codable, Identifiable {
         struct Answer: Codable, Identifiable {
@@ -97,13 +98,15 @@ class QuizData {
     
     var quizzes: [Quiz] {
         didSet {
-            encodeQuizzes()
+            encodeAndSaveQuizzes()
         }
     }
     
     private init() {
         let decoder = JSONDecoder()
-        if let data = UserDefaults.standard.data(forKey: Self.encodingKey) {
+        let URL = URL.documentsDirectory.appending(path: Self.encodingKey)
+        
+        if let data = try? Data(contentsOf: URL) {
             if let decodedData = try? decoder.decode([Quiz].self, from: data) {
                 self.quizzes = decodedData
                 return
@@ -112,10 +115,15 @@ class QuizData {
         self.quizzes = []
     }
     
-    private func encodeQuizzes() {
+    private func encodeAndSaveQuizzes() {
         let encoder = JSONEncoder()
         if let encodedData = try? encoder.encode(quizzes) {
-            UserDefaults.standard.set(encodedData, forKey: Self.encodingKey)
+            let url = URL.documentsDirectory.appending(path: Self.encodingKey)
+            do {
+                try encodedData.write(to: url)
+            } catch {
+                print("Data unable to be written.")
+            }
         }
     }
 }
