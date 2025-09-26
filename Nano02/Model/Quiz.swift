@@ -26,7 +26,7 @@ struct Quiz: Codable, Identifiable {
         var image: Data?
     }
     let id: UUID
-    let title: String?
+    var title: String?
     var colorPallete: ColorPallete
     var questions: [Question]
     

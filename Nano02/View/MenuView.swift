@@ -21,11 +21,8 @@ class MenuView: UIView {
     }()
     
     lazy private var createQuizButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        let button = CustomLargeButton()
         button.setTitle("Create a Quiz", for: .normal)
-        button.configuration = .filled()
-        button.configuration?.buttonSize = .large
         button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
         
         return button

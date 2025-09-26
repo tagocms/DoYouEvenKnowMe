@@ -8,6 +8,7 @@
 import UIKit
 
 class CreateQuizView: UIView {
+    var onPressButton: () -> Void = { }
     
     // MARK: - UI Elements
     var inputLabelName = createInputLabel("Choose the name for your Quiz")
@@ -28,6 +29,15 @@ class CreateQuizView: UIView {
         tableView.register(ColorPalleteTableViewCell.self, forCellReuseIdentifier: ColorPalleteTableViewCell.identifier)
         
         return tableView
+    }()
+    
+    lazy var nextButton: UIButton = {
+        let button = CustomLargeButton()
+        button.setTitle("Next", for: .normal)
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
+        
+        return button
     }()
     
     // MARK: - Initializers
@@ -60,6 +70,7 @@ class CreateQuizView: UIView {
         addSubview(nameInputTableView)
         addSubview(inputLabelColor)
         addSubview(colorPalleteTableView)
+        addSubview(nextButton)
     }
     
     // MARK: - Constraints
@@ -91,7 +102,18 @@ class CreateQuizView: UIView {
             colorPalleteTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             colorPalleteTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             colorPalleteTableView.topAnchor.constraint(equalTo: inputLabelColor.bottomAnchor, constant: 10),
-            colorPalleteTableView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5)
+            colorPalleteTableView.heightAnchor.constraint(equalToConstant: 220)
         ])
+        
+        // Constraints for Next Button
+        NSLayoutConstraint.activate([
+            nextButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            nextButton.topAnchor.constraint(equalTo: colorPalleteTableView.bottomAnchor, constant: 16),
+        ])
+    }
+    
+    // MARK: - Button Action
+    @objc func didPressButton() {
+        onPressButton()
     }
 }

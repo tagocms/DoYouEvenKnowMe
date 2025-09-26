@@ -12,7 +12,6 @@ class CreateQuizViewController: UIViewController {
     var quizModel = Quiz()
     
     let colorTypes = ["Foreground", "Background", "Correct Answer", "Wrong Answer"]
-    var text: String = ""
     
     // MARK: - Loading of the View
     override func loadView() {
@@ -30,12 +29,15 @@ class CreateQuizViewController: UIViewController {
         
         quizView.colorPalleteTableView.delegate = self
         quizView.colorPalleteTableView.dataSource = self
+        
+        quizView.onPressButton = navigateToNextView
     }
     
-    // MARK: - Updating the "text" variable
-    func updateText(to newText: String) {
-        text = newText
-        print(newText)
+    // MARK: - Functions
+    func updateQuizTitle(to newText: String) {
+        quizModel.title = newText
+        print(quizModel.title ?? "")
+        checkFieldsFilled()
     }
     
     @objc func colorWellValueChanged(_ sender: UIColorWell) {
@@ -53,8 +55,25 @@ class CreateQuizViewController: UIViewController {
         default:
             break
         }
-        
+
         print(sender.title ?? "", selectedColor)
+        checkFieldsFilled()
+    }
+    
+    func navigateToNextView() {
+        navigationController?.pushViewController(QuestionViewController(), animated: true)
+    }
+    
+    func checkFieldsFilled() {
+        if quizModel.title != nil
+            && quizModel.colorPallete.foreground != nil
+            && quizModel.colorPallete.background != nil
+            && quizModel.colorPallete.correctAnswer != nil
+            && quizModel.colorPallete.wrongAnswer != nil {
+            quizView.nextButton.isEnabled = true
+        } else {
+            quizView.nextButton.isEnabled = false
+        }
     }
 }
 
@@ -69,7 +88,7 @@ extension CreateQuizViewController: UITextFieldDelegate {
         let cell = quizView.nameInputTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? InputTableViewCell
         if textField == cell?.textField {
             if let text = textField.text {
-                updateText(to: text)
+                updateQuizTitle(to: text)
             }
         }
     }
