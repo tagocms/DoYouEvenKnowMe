@@ -17,12 +17,12 @@ struct Quiz: Codable, Identifiable {
     struct Question: Codable, Identifiable {
         struct Answer: Codable, Identifiable {
             let id: Int
-            let description: String
+            let description: String?
         }
         let id: Int
-        var description: String
+        var description: String?
         var answers: [Answer]
-        var correctAnswerId: Int
+        var correctAnswerId: Int?
         var image: Data?
     }
     let id: UUID

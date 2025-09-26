@@ -34,13 +34,14 @@ class QuestionView: UIView {
     var alternativesPromptTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(AlternativeTableViewCell.self, forCellReuseIdentifier: AlternativeTableViewCell.identifier)
         
         return tableView
     }()
     
     private var imagePromptLabel: InputLabel = {
         let label = InputLabel()
-        label.text = "Select a photo"
+        label.text = "Select an image"
         
         return label
     }()
@@ -48,8 +49,17 @@ class QuestionView: UIView {
     var imagePromptTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ImagePromptTableViewCell.self, forCellReuseIdentifier: ImagePromptTableViewCell.identifier)
         
         return tableView
+    }()
+    
+    var imageSelected: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 12
+        
+        return imageView
     }()
     
     private var nextQuestionButton: CustomLargeButton = {
@@ -91,6 +101,7 @@ class QuestionView: UIView {
         addSubview(imagePromptTableView)
         addSubview(nextQuestionButton)
         addSubview(finishQuizButton)
+        addSubview(imageSelected)
     }
     
     // MARK: - Constraints
@@ -122,7 +133,7 @@ class QuestionView: UIView {
             alternativesPromptTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             alternativesPromptTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             alternativesPromptTableView.topAnchor.constraint(equalTo: alternativesPromptLabel.bottomAnchor, constant: 10),
-            alternativesPromptTableView.heightAnchor.constraint(equalToConstant: 220)
+            alternativesPromptTableView.heightAnchor.constraint(equalToConstant: 200)
         ])
         
         // Constraints for Image Prompt Label
@@ -140,10 +151,18 @@ class QuestionView: UIView {
             imagePromptTableView.heightAnchor.constraint(equalToConstant: 50)
         ])
         
+        // Constraints for Image View
+        NSLayoutConstraint.activate([
+            imageSelected.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageSelected.topAnchor.constraint(equalTo: imagePromptTableView.bottomAnchor, constant: 10),
+            imageSelected.heightAnchor.constraint(equalToConstant: imageSelected.image != nil ? 124 : 0),
+            imageSelected.widthAnchor.constraint(equalToConstant: imageSelected.image != nil ? 124 : 0)
+        ])
+        
         // Constraints for Next Button
         NSLayoutConstraint.activate([
             nextQuestionButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 16),
-            nextQuestionButton.topAnchor.constraint(equalTo: imagePromptTableView.bottomAnchor, constant: 16),
+            nextQuestionButton.topAnchor.constraint(equalTo: imageSelected.bottomAnchor, constant: 16),
         ])
         
         // Constraints for Finish Quiz Button
