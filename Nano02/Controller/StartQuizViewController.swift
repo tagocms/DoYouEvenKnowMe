@@ -28,6 +28,16 @@ class StartQuizViewController: UIViewController {
         startQuizView.onPressButton = startQuiz
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.transition(with: startQuizView, duration: 2.0, options: .transitionCrossDissolve) {
+            self.startQuizView.paragraphText.textColor = UIColor(from: self.quizModel.colorPallete.foreground ?? "") ?? .label
+            self.startQuizView.numberOfQuestions.textColor = UIColor(from: self.quizModel.colorPallete.foreground ?? "") ?? .label
+            self.startQuizView.backgroundColor = UIColor(from: self.quizModel.colorPallete.background ?? "") ?? .systemBackground
+            self.startQuizView.startQuizButton.configuration?.baseBackgroundColor = UIColor(from: self.quizModel.colorPallete.button ?? "") ?? .systemBlue
+        }
+    }
+    
     // MARK: - Initializers
     init(quizModel: Quiz) {
         self.quizModel = quizModel
