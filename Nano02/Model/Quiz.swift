@@ -30,12 +30,15 @@ struct Quiz: Codable, Identifiable {
     var title: String?
     var colorPallete: ColorPallete
     var questions: [Question]
+    // TODO: - Make it so the date created is always stored, not initialized again and again
+    var dateCreated: Date
     
     init(id: UUID, title: String, colorPallete: ColorPallete, questions: [Question]) {
         self.id = id
         self.title = title
         self.colorPallete = colorPallete
         self.questions = questions
+        self.dateCreated = Date.now
     }
     
     init() {
@@ -43,6 +46,7 @@ struct Quiz: Codable, Identifiable {
         self.title = ""
         self.colorPallete = ColorPallete()
         self.questions = []
+        self.dateCreated = Date.now
     }
 }
 
@@ -99,6 +103,7 @@ class QuizData {
     var quizzes: [Quiz] {
         didSet {
             encodeAndSaveQuizzes()
+            quizzes.sort { $0.dateCreated > $1.dateCreated }
         }
     }
     

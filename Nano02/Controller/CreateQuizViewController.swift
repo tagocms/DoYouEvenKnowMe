@@ -36,7 +36,6 @@ class CreateQuizViewController: UIViewController {
     // MARK: - Functions
     func updateQuizTitle(to newText: String) {
         quizModel.title = newText
-        print(quizModel.title ?? "")
         checkFieldsFilled()
     }
     
@@ -57,8 +56,6 @@ class CreateQuizViewController: UIViewController {
         default:
             break
         }
-
-        print(sender.title ?? "", selectedColor)
         checkFieldsFilled()
     }
     

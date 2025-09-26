@@ -24,9 +24,11 @@ class MenuViewController: UIViewController {
         
         menuView.savedQuizzesTableView.delegate = self
         menuView.savedQuizzesTableView.dataSource = self
-        
-        // TODO: - Make table update with new quiz created
-        print("sla")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        menuView.savedQuizzesTableView.reloadData()
     }
     
     func navigateToNextView() {
@@ -44,11 +46,27 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = quizData.quizzes[indexPath.row].title
+        cell.accessoryType = .disclosureIndicator
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        "YOUR QUIZZES"
+        quizData.quizzes.count >= 1 ? "YOUR QUIZZES" : nil
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) {_,_,completion in
+            self.quizData.quizzes.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+        deleteAction.backgroundColor = .systemRed
+        
+        let config = UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        return config
     }
 }

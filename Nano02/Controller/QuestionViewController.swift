@@ -62,7 +62,7 @@ class QuestionViewController: UIViewController {
         questionView.finishQuizButton.addTarget(self, action: #selector(finishAndSaveQuiz), for: .touchUpInside)
         
         let saveQuiz = UIAlertAction(title: "OK", style: .default) { _ in
-            self.saveQuizToUserDefaultsAndDismiss()
+            self.saveQuizToDocumentsAndDismiss()
         }
         alertController.addAction(saveQuiz)
 
@@ -115,8 +115,6 @@ class QuestionViewController: UIViewController {
             
             // TODO: - Add logic to set this button as the answer to the question
             question.correctAnswerId = sender.id
-            
-            print("Correct Answer: \(question.correctAnswerId ?? -1)")
         }
         
     }
@@ -147,11 +145,9 @@ class QuestionViewController: UIViewController {
         }
     }
     
-    func saveQuizToUserDefaultsAndDismiss() {
+    func saveQuizToDocumentsAndDismiss() {
         QuizData.shared.quizzes.append(quizModel)
         navigationController?.popToRootViewController(animated: true)
-        
-        print(QuizData.shared.quizzes)
     }
 }
 
@@ -242,14 +238,11 @@ extension QuestionViewController: UITextFieldDelegate {
            let alternativeTextFieldCells = questionView.alternativesPromptTableView.visibleCells as? [AlternativeTableViewCell] {
             if textField == promptTextField.textField {
                 question.description = textField.text
-                print(question.description ?? "prompt table view not loaded")
             } else {
                 for index in alternativeTextFieldCells.indices {
                     if textField == alternativeTextFieldCells[index].textField {
                         question.answers[index].description = textField.text
                     }
-                    
-                    print(question.answers[index].description ?? "alternative table view not loaded")
                 }
             }
         }
