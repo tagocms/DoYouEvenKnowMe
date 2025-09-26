@@ -87,7 +87,7 @@ class CreateQuizView: UIView {
             nameInputTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             nameInputTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             nameInputTableView.topAnchor.constraint(equalTo: inputLabelName.bottomAnchor, constant: 10),
-            nameInputTableView.heightAnchor.constraint(equalToConstant: 50)
+            nameInputTableView.heightAnchor.constraint(equalToConstant: 100)
         ])
         
         // Constraints for table label

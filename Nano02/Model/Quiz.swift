@@ -28,24 +28,30 @@ struct Quiz: Codable, Identifiable {
     }
     let id: UUID
     var title: String?
+    var description: String?
     var colorPallete: ColorPallete
     var questions: [Question]
     var dateCreated: Date
+    var respondentsScore: [String: Int]
     
-    init(id: UUID, title: String, colorPallete: ColorPallete, questions: [Question]) {
+    init(id: UUID, title: String, description: String, colorPallete: ColorPallete, questions: [Question], dateCreated: Date = Date.now) {
         self.id = id
         self.title = title
+        self.description = description
         self.colorPallete = colorPallete
         self.questions = questions
-        self.dateCreated = Date.now
+        self.dateCreated = dateCreated
+        self.respondentsScore = [:]
     }
     
     init() {
         self.id = UUID()
         self.title = ""
+        self.description = ""
         self.colorPallete = ColorPallete()
         self.questions = []
         self.dateCreated = Date.now
+        self.respondentsScore = [:]
     }
 }
 
@@ -56,6 +62,7 @@ class QuizData {
         Quiz(
             id: UUID(),
             title: "Quiz exemplo",
+            description: "Descrição de exemplo",
             colorPallete: Quiz.ColorPallete(
                 foreground: "#FFEEAA",
                 background: "#AAEEFF",
@@ -67,6 +74,7 @@ class QuizData {
         Quiz(
             id: UUID(),
             title: "Quiz exemplo",
+            description: "Descrição de exemplo",
             colorPallete: Quiz.ColorPallete(
                 foreground: "#FFEEAA",
                 background: "#AAEEFF",
@@ -78,6 +86,7 @@ class QuizData {
         Quiz(
             id: UUID(),
             title: "Quiz exemplo",
+            description: "Descrição de exemplo",
             colorPallete: Quiz.ColorPallete(
                 foreground: "#FFEEAA",
                 background: "#AAEEFF",
@@ -89,6 +98,7 @@ class QuizData {
         Quiz(
             id: UUID(),
             title: "Quiz exemplo",
+            description: "Descrição de exemplo",
             colorPallete: Quiz.ColorPallete(
                 foreground: "#FFEEAA",
                 background: "#AAEEFF",

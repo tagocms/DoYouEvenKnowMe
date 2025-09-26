@@ -44,6 +44,7 @@ class QuestionViewController: UIViewController {
     
     // MARK: - Lifecycle
     override func loadView() {
+        super.loadView()
         view = questionView
         title = "Question \(questionNumber)"
     }

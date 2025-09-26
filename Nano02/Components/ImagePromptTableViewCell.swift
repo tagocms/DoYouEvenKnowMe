@@ -47,7 +47,7 @@ class ImagePromptTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             selectPhotoButton.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             selectPhotoButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            selectPhotoButton.heightAnchor.constraint(equalToConstant: contentView.layoutMarginsGuide.layoutFrame.height)
+            selectPhotoButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
         ])
     }
 }

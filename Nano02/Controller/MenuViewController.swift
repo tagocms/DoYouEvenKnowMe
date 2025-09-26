@@ -12,6 +12,7 @@ class MenuViewController: UIViewController {
     private let quizData = QuizData.shared
     
     override func loadView() {
+        super.loadView()
         view = menuView
         title = "Do you even know me?"
         navigationItem.backButtonDisplayMode = .generic
@@ -68,5 +69,10 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         let config = UISwipeActionsConfiguration(actions: [deleteAction])
         
         return config
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let quizViewController = StartQuizViewController(quizModel: quizData.quizzes[indexPath.row])
+        navigationController?.pushViewController(quizViewController, animated: true)
     }
 }

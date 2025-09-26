@@ -11,6 +11,7 @@ class CreateQuizViewController: UIViewController {
     let quizView = CreateQuizView()
     var quizModel = Quiz()
     
+    let textTypes = ["Title", "Description"]
     let colorTypes = ["Foreground", "Background", "Correct Answer", "Wrong Answer", "Button"]
     
     // MARK: - Loading of the View
@@ -39,6 +40,11 @@ class CreateQuizViewController: UIViewController {
         checkFieldsFilled()
     }
     
+    func updateQuizDescription(to newText: String) {
+        quizModel.description = newText
+        checkFieldsFilled()
+    }
+    
     @objc func colorWellValueChanged(_ sender: UIColorWell) {
         let selectedColor = sender.selectedColor?.hexStringRepresentation() ?? "#000000"
         
@@ -64,7 +70,10 @@ class CreateQuizViewController: UIViewController {
     }
     
     func checkFieldsFilled() {
-        if quizModel.title != nil && quizModel.title?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+        let quizTitleCleaned = quizModel.title?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let quizDescriptionCleaned = quizModel.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        
+        if !quizTitleCleaned.isEmpty && !quizDescriptionCleaned.isEmpty {
             quizView.nextButton.isEnabled = true
         } else {
             quizView.nextButton.isEnabled = false
@@ -80,10 +89,16 @@ extension CreateQuizViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let cell = quizView.nameInputTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? InputTableViewCell
-        if textField == cell?.textField {
+        let titleCell = quizView.nameInputTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? InputTableViewCell
+        let descriptionCell = quizView.nameInputTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? InputTableViewCell
+        
+        if textField == titleCell?.textField {
             if let text = textField.text {
                 updateQuizTitle(to: text)
+            }
+        } else if textField == descriptionCell?.textField {
+            if let text = textField.text {
+                updateQuizDescription(to: text)
             }
         }
     }
@@ -97,8 +112,15 @@ extension CreateQuizViewController: UITableViewDataSource, UITableViewDelegate {
                 fatalError("Unable to dequeue InputTableViewCell")
             }
             inputCell.textField.delegate = self
-            inputCell.textField.placeholder = "Your Quiz"
-            inputCell.labelView.text = "Name"
+            
+            if textTypes[indexPath.row] == "Title" {
+                inputCell.textField.placeholder = "Your Quiz"
+                inputCell.labelView.text = "Title"
+            } else if textTypes[indexPath.row] == "Description" {
+                inputCell.textField.placeholder = "Brief Description"
+                inputCell.labelView.text = "Description"
+            }
+            
             
             return inputCell
         } else if tableView == quizView.colorPalleteTableView {
@@ -118,7 +140,7 @@ extension CreateQuizViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == quizView.nameInputTableView {
-            1
+            textTypes.count
         } else {
             colorTypes.count
         }

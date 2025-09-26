@@ -48,7 +48,7 @@ class InputTableViewCell: UITableViewCell {
             labelView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             labelView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             labelView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            labelView.widthAnchor.constraint(equalTo: contentView.layoutMarginsGuide.widthAnchor, multiplier: 0.3),
+            labelView.widthAnchor.constraint(equalTo: contentView.layoutMarginsGuide.widthAnchor, multiplier: 0.4),
             
             textField.leadingAnchor.constraint(equalTo: labelView.trailingAnchor),
             textField.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
