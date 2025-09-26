@@ -61,7 +61,7 @@ class CreateQuizViewController: UIViewController {
     }
     
     func navigateToNextView() {
-        navigationController?.pushViewController(QuestionViewController(), animated: true)
+        navigationController?.pushViewController(QuestionViewController(quizModel: quizModel), animated: true)
     }
     
     func checkFieldsFilled() {

@@ -16,7 +16,7 @@ class QuestionView: UIView {
         return label
     }()
     
-    private var inputPromptTableView: UITableView = {
+    var inputPromptTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -30,7 +30,7 @@ class QuestionView: UIView {
         return label
     }()
     
-    private var alternativesPromptTableView: UITableView = {
+    var alternativesPromptTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -44,7 +44,7 @@ class QuestionView: UIView {
         return label
     }()
     
-    private var imagePromptTableView: UITableView = {
+    var imagePromptTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -97,12 +97,14 @@ class QuestionView: UIView {
         // Constraints for Input Prompt Label
         NSLayoutConstraint.activate([
             inputPromptLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            inputPromptLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             inputPromptLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
         ])
         
         // Constraints for Prompt Table View
         NSLayoutConstraint.activate([
             inputPromptTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            inputPromptTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             inputPromptTableView.topAnchor.constraint(equalTo: inputPromptLabel.bottomAnchor, constant: 10),
             inputPromptTableView.heightAnchor.constraint(equalToConstant: 50)
         ])
@@ -110,12 +112,14 @@ class QuestionView: UIView {
         // Constraints for Alternatives Prompt Label
         NSLayoutConstraint.activate([
             alternativesPromptLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            alternativesPromptLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             alternativesPromptLabel.topAnchor.constraint(equalTo: inputPromptTableView.bottomAnchor, constant: 16),
         ])
         
         // Constraints for Alternatives Table View
         NSLayoutConstraint.activate([
             alternativesPromptTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            alternativesPromptTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             alternativesPromptTableView.topAnchor.constraint(equalTo: alternativesPromptLabel.bottomAnchor, constant: 10),
             alternativesPromptTableView.heightAnchor.constraint(equalToConstant: 220)
         ])
@@ -123,12 +127,14 @@ class QuestionView: UIView {
         // Constraints for Image Prompt Label
         NSLayoutConstraint.activate([
             imagePromptLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            imagePromptLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             imagePromptLabel.topAnchor.constraint(equalTo: alternativesPromptTableView.bottomAnchor, constant: 16),
         ])
         
         // Constraints for Image Table View
         NSLayoutConstraint.activate([
             imagePromptTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            imagePromptTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             imagePromptTableView.topAnchor.constraint(equalTo: imagePromptLabel.bottomAnchor, constant: 10),
             imagePromptTableView.heightAnchor.constraint(equalToConstant: 50)
         ])

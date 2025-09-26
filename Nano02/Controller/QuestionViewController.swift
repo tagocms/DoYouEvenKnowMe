@@ -8,6 +8,8 @@
 import UIKit
 
 class QuestionViewController: UIViewController {
+    var quizModel: Quiz
+    
     let questionView = QuestionView()
     var questionNumber: Int
     
@@ -19,9 +21,16 @@ class QuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        questionView.inputPromptTableView.delegate = self
+        questionView.inputPromptTableView.dataSource = self
+        questionView.alternativesPromptTableView.delegate = self
+        questionView.alternativesPromptTableView.dataSource = self
+        questionView.imagePromptTableView.delegate = self
+        questionView.imagePromptTableView.dataSource = self
     }
     
-    init(questionNumber: Int = 1) {
+    init(quizModel: Quiz, questionNumber: Int = 1) {
+        self.quizModel = quizModel
         self.questionNumber = questionNumber
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,5 +38,27 @@ class QuestionViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+}
+
+extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == questionView.inputPromptTableView {
+            1
+        } else if tableView == questionView.alternativesPromptTableView {
+            4
+        } else if tableView == questionView.imagePromptTableView {
+            1
+        } else {
+            1
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = "\(indexPath.row)"
+        return cell
+    }
+    
     
 }
