@@ -11,6 +11,7 @@ class QuizViewController: UIViewController {
     typealias Question = Quiz.Question
     let quizView = QuizView()
     let questionNumber: Int
+    var correctAnswers: Int
     let question: Question
     var quizModel: Quiz
     
@@ -33,9 +34,10 @@ class QuizViewController: UIViewController {
     }
     
     // MARK: - Initializers
-    init(quizModel: Quiz, questionNumber: Int = 1) {
+    init(quizModel: Quiz, questionNumber: Int = 1, correctAnswers: Int = 0) {
         self.quizModel = quizModel
         self.questionNumber = questionNumber
+        self.correctAnswers = correctAnswers
         if questionNumber > 0 && questionNumber <= quizModel.questions.count {
             self.question = quizModel.questions[questionNumber - 1]
         } else {
@@ -73,17 +75,25 @@ class QuizViewController: UIViewController {
     @objc func handleQuizOptionButtonTapped(_ sender: QuizOptionButton) {
         
         if let buttons = quizView.answerStackView.arrangedSubviews as? [QuizOptionButton] {
-            if sender.id == question.correctAnswerId {
-                sender.configuration?.baseBackgroundColor = UIColor(from: quizModel.colorPallete.correctAnswer ?? "") ?? .systemGreen
-            } else {
-                sender.configuration?.baseBackgroundColor = UIColor(from: quizModel.colorPallete.wrongAnswer ?? "") ?? .systemRed
+            UIView.transition(with: sender, duration: 0.5, options: .transitionCrossDissolve) {
+                if sender.id == self.question.correctAnswerId {
+                    sender.configuration?.baseBackgroundColor = UIColor(from: self.quizModel.colorPallete.correctAnswer ?? "") ?? .systemGreen
+                    
+                    self.correctAnswers += 1
+                } else {
+                    sender.configuration?.baseBackgroundColor = UIColor(from: self.quizModel.colorPallete.wrongAnswer ?? "") ?? .systemRed
+                }
             }
+                              
             for button in buttons {
-                button.isEnabled = false
-                // TODO: - Make sure that even disabled, the buttons are still visible
+                button.removeTarget(self, action: nil, for: .touchUpInside)
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.navigationController?.pushViewController(QuizViewController(quizModel: self.quizModel, questionNumber: self.questionNumber + 1), animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if self.questionNumber < self.quizModel.questions.count {
+                    self.navigationController?.pushViewController(QuizViewController(quizModel: self.quizModel, questionNumber: self.questionNumber + 1, correctAnswers: self.correctAnswers), animated: true)
+                } else {
+                    self.navigationController?.pushViewController(EndQuizViewController(quizModel: self.quizModel, correctAnswers: self.correctAnswers), animated: true)
+                }
             }
         }
     }
