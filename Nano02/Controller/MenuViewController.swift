@@ -71,6 +71,21 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         return config
     }
     
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let openLeaderboardAction = UIContextualAction(style: .destructive, title: nil) {_,_,completion in
+            
+            // TODO: - Show sheet with the leaderboard for the respective quiz selected
+            
+            completion(true)
+        }
+        openLeaderboardAction.image = UIImage(systemName: "trophy")
+        openLeaderboardAction.backgroundColor = .systemYellow
+        
+        let config = UISwipeActionsConfiguration(actions: [openLeaderboardAction])
+        
+        return config
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let quizViewController = StartQuizViewController(quizModel: quizData.quizzes[indexPath.row])
         navigationController?.pushViewController(quizViewController, animated: true)

@@ -21,17 +21,24 @@ class EndQuizView: UIView {
         return label
     }()
     
-    var numberOfQuestions: InputLabel = {
+    var scoreLabel: InputLabel = {
         let label = InputLabel()
         label.text = ""
         
         return label
     }()
     
+    var nameInputTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tableView
+    }()
+    
     lazy var saveScoreToLeaderboardButton: CustomLargeButton = {
         let button = CustomLargeButton()
         button.setTitle("Save score to Leaderboard", for: .normal)
-        button.isEnabled = true
+        button.isEnabled = false
         button.addTarget(self, action: #selector(didPressButton(_:)), for: .touchUpInside)
         
         return button
@@ -39,7 +46,7 @@ class EndQuizView: UIView {
     
     lazy var returnToMenuButton: CustomLargeButton = {
         let button = CustomLargeButton()
-        button.setTitle("Save attempt", for: .normal)
+        button.setTitle("Return to Menu", for: .normal)
         button.isEnabled = true
         button.addTarget(self, action: #selector(didPressButton(_:)), for: .touchUpInside)
         
@@ -61,7 +68,8 @@ class EndQuizView: UIView {
     // MARK: - Setup UI Elements and Constraints
     func setupUI() {
         addSubview(paragraphText)
-        addSubview(numberOfQuestions)
+        addSubview(scoreLabel)
+        addSubview(nameInputTableView)
         addSubview(saveScoreToLeaderboardButton)
         addSubview(returnToMenuButton)
         
@@ -70,11 +78,16 @@ class EndQuizView: UIView {
             paragraphText.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             paragraphText.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            numberOfQuestions.topAnchor.constraint(equalTo: paragraphText.bottomAnchor, constant: 10),
-            numberOfQuestions.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            numberOfQuestions.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            scoreLabel.topAnchor.constraint(equalTo: paragraphText.bottomAnchor, constant: 10),
+            scoreLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            scoreLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            saveScoreToLeaderboardButton.topAnchor.constraint(equalTo: numberOfQuestions.bottomAnchor, constant: 16),
+            nameInputTableView.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 10),
+            nameInputTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            nameInputTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            nameInputTableView.heightAnchor.constraint(equalToConstant: 50),
+            
+            saveScoreToLeaderboardButton.topAnchor.constraint(equalTo: nameInputTableView.bottomAnchor, constant: 16),
             saveScoreToLeaderboardButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             returnToMenuButton.topAnchor.constraint(equalTo: saveScoreToLeaderboardButton.bottomAnchor, constant: 16),
