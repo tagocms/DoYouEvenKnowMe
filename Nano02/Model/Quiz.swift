@@ -134,7 +134,7 @@ class QuizData {
         if let encodedData = try? encoder.encode(quizzes) {
             let url = URL.documentsDirectory.appending(path: Self.encodingKey)
             do {
-                try encodedData.write(to: url)
+                try encodedData.write(to: url, options: [.atomic, .completeFileProtection])
             } catch {
                 print("Data unable to be written.")
             }

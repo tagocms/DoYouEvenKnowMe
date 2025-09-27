@@ -5,6 +5,7 @@
 //  Created by Tiago Camargo Maciel dos Santos on 25/09/25.
 //
 
+import PhotosUI
 import UIKit
 
 class QuestionViewController: UIViewController {
@@ -121,7 +122,15 @@ class QuestionViewController: UIViewController {
     }
     
     @objc func openImageSelector() {
-        present(imagePickerController, animated: true)
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+            if status == .authorized {
+                print("Photo access authorized.")
+            }
+        }
+        
+        if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized {
+            present(self.imagePickerController, animated: true)
+        }
     }
     
     @objc func nextQuestion() {

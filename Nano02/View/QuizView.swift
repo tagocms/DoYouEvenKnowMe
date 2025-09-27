@@ -18,7 +18,7 @@ class QuizView: UIView {
     lazy var imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleToFill
+        image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 12
         image.clipsToBounds = true
         
@@ -59,7 +59,7 @@ class QuizView: UIView {
             imageView.topAnchor.constraint(equalTo: questionLabel.bottomAnchor, constant: 10),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
+            imageView.heightAnchor.constraint(equalToConstant: 400),
             
             answerStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
             answerStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),

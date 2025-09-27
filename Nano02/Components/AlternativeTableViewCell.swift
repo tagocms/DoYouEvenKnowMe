@@ -23,7 +23,7 @@ class AlternativeTableViewCell: UITableViewCell {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Placeholder Text"
         textField.returnKeyType = .done
-        textField.autocapitalizationType = .words
+        textField.autocapitalizationType = .sentences
         textField.autocorrectionType = .no
         
         return textField

@@ -148,6 +148,8 @@
 				DEVELOPMENT_TEAM = 22MHF556GA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Nano02/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Do you even know me?";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need to access your images.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -176,6 +178,8 @@
 				DEVELOPMENT_TEAM = 22MHF556GA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Nano02/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Do you even know me?";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need to access your images.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
