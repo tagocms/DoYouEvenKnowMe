@@ -91,6 +91,8 @@ class EndQuizViewController: UIViewController {
             if let index = QuizData.shared.quizzes.firstIndex(where: { $0.id == quizModel.id }) {
                 QuizData.shared.quizzes[index] = quizModel
             }
+            
+            navigationController?.popToRootViewController(animated: true)
         } else {
             print("Unable to save to leaderboard.")
         }

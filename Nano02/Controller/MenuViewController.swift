@@ -73,9 +73,12 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let openLeaderboardAction = UIContextualAction(style: .destructive, title: nil) {_,_,completion in
-            
+            let leaderboardVC = LeaderboardTableViewController(quizModel: self.quizData.quizzes[indexPath.row])
             // TODO: - Show sheet with the leaderboard for the respective quiz selected
+            let sheet = leaderboardVC.sheetPresentationController
+            sheet?.detents = [.medium(), .large()]
             
+            self.present(leaderboardVC, animated: true)
             completion(true)
         }
         openLeaderboardAction.image = UIImage(systemName: "trophy")
