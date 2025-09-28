@@ -15,7 +15,7 @@ class QuestionViewController: UIViewController {
         didSet {
             let descriptionCleaned = question.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
             
-            if !descriptionCleaned.isEmpty && question.correctAnswerId != nil && questionNumber < 10 {
+            if !descriptionCleaned.isEmpty && question.correctAnswerId != nil {
                 for answer in question.answers {
                     let alternativeCleaned = answer.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
                     if  alternativeCleaned.isEmpty {
@@ -24,8 +24,10 @@ class QuestionViewController: UIViewController {
                         return
                     }
                 }
+                if questionNumber < 10 {
+                    questionView.nextQuestionButton.isEnabled = true
+                }
                 
-                questionView.nextQuestionButton.isEnabled = true
                 if questionNumber >= 3 && questionNumber <= 10 {
                     questionView.finishQuizButton.isEnabled = true
                 }
@@ -192,6 +194,8 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             alternativeCell.textField.delegate = self
+            alternativeCell.labelView.text = "Option \(indexPath.row + 1)"
+            alternativeCell.textField.placeholder = "Add an option..."
             
             alternativeCell.checkMarkButton.addTarget(self, action: #selector(checkBox(_:)), for: .touchUpInside)
             alternativeCell.checkMarkButton.id = indexPath.row + 1

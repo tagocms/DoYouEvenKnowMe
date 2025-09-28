@@ -12,6 +12,7 @@ class InputLabel: UILabel {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         font = .systemFont(ofSize: 17, weight: .semibold)
+        numberOfLines = 0
     }
     
     required init?(coder: NSCoder) {
