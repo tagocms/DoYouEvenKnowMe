@@ -53,7 +53,10 @@ class QuizViewController: UIViewController {
     // MARK: - Helper functions
     func setupContent() {
         quizView.questionLabel.text = question.description
-        quizView.imageView.image = UIImage(data: question.image ?? Data()) ?? UIImage(systemName: "checkmark")
+        quizView.imageView.image = UIImage(data: question.image ?? Data())
+        if quizView.imageView.image == nil {
+            quizView.imageHeightConstraint.isActive = false
+        }
         
         for quizOption in question.answers {
             let quizOptionButton = QuizOptionButton()

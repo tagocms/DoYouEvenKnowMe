@@ -33,6 +33,7 @@ class QuizView: UIView {
         
         return stack
     }()
+    lazy var imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: 400)
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -59,12 +60,13 @@ class QuizView: UIView {
             imageView.topAnchor.constraint(equalTo: questionLabel.bottomAnchor, constant: 10),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            imageView.heightAnchor.constraint(equalToConstant: 400),
             
             answerStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
             answerStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             answerStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
         ])
+        
+        imageHeightConstraint.isActive = true
     }
     
 }
