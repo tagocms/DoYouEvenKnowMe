@@ -42,6 +42,12 @@ class QuestionViewController: UIViewController {
     let questionView = QuestionView()
     let imagePickerController = UIImagePickerController()
     let alertController = UIAlertController(title: "Finish Quiz", message: "If you finish the Quiz, you won't be able to come back to edit it later.", preferredStyle: .alert)
+    let imageAlertController: UIAlertController =  {
+        let alertController = UIAlertController(title: "Image access not granted", message: "If you wish to add an image to your question, please allow access to your photos library in Settings > Privacy > Photos.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        return alertController
+    }()
     var questionNumber: Int
     
     
@@ -124,14 +130,22 @@ class QuestionViewController: UIViewController {
     }
     
     @objc func openImageSelector() {
-        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
-            if status == .authorized {
-                print("Photo access authorized.")
+        if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .notDetermined {
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                if status == .authorized {
+                    print("Photo access authorized.")
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self else { return }
+                        present(imagePickerController, animated: true)
+                    }
+                }
             }
-        }
-        
-        if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized {
-            present(self.imagePickerController, animated: true)
+        } else {
+            if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized {
+                present(imagePickerController, animated: true)
+            } else {
+                present(imageAlertController, animated: true)
+            }
         }
     }
     
